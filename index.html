@@ -7,17 +7,21 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <link rel="stylesheet" href="./dist/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>HeatCheck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet"> 
+    <title>Heat Check</title>
   </head>
 
   <body>
     <div class="navbar">
-      <h1>HeatCheck</h1>
+      <div class="logo">
+        <img class="logo-img" src="src/images/logo.png">
+        <h1>Heat Check</h1>
+      </div>
       <div class="profile-links">
-        <a href="#">
+        <a href="https://www.linkedin.com/in/adriantaehyunkim/">
           <i class="fa fa-linkedin"></i>
         </a>
-        <a href="#">
+        <a href="https://github.com/aydreeyun/heatcheck">
           <i class="fa fa-github"></i>
         </a>
         <a href="#">
@@ -25,9 +29,18 @@
         </a>
       </div>
     </div>
-    <svg class="graph"></svg>
-    <input class="player-one-search" type="text" placeholder="Search Player">
-    <input class="player-two-search" type="text" placeholder="Search Player">
-    <div id="graph"></div>
+    <div class="main-content">
+      <div class="player-compare">
+        <div class="player-one">
+  
+        </div>
+        <div class="player-two">
+          
+        </div>
+      </div>
+      <div class="graph-area">
+        <svg id="graph"></svg>
+      </div>
+    </div>
   </body>
 </html>
