@@ -3,12 +3,31 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./dist/main.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <link rel="stylesheet" href="./dist/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>HeatCheck</title>
   </head>
 
   <body>
-    <script src="./dist/main.js"></script>
-    <h1>HeatCheck</h1>
+    <div class="navbar">
+      <h1>HeatCheck</h1>
+      <div class="profile-links">
+        <a href="#">
+          <i class="fa fa-linkedin"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-github"></i>
+        </a>
+        <a href="#">
+          <i class="fa fa-angellist"></i>
+        </a>
+      </div>
+    </div>
+    <div class="graph"></div>
+    <input class="player-one-search" type="text" placeholder="Search Player">
+    <input class="player-two-search" type="text" placeholder="Search Player">
+    <div id="graph"></div>
   </body>
 </html>
