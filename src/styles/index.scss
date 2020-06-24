@@ -5,6 +5,10 @@ body {
   font-family: 'Anton', sans-serif;
 }
 
+button {
+  font-family: 'Anton', sans-serif;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -60,12 +64,20 @@ body {
   justify-content: space-around;
 }
 
-.player-one, .player-two {
+.player-card-details {
   height: 500px;
   width: 350px;
   margin: 25px;
   background: lime;
   position: relative;
+}
+
+.player-photo {
+  position: absolute;
+  background-size: 100% 100%;
+  width: 350px;
+  height : 250px;
+  top: -50px;
 }
 
 .player-stats {
@@ -74,14 +86,16 @@ body {
   height: 300px;
   width: 400px;
   left: -25px;
-  top: 150px;
+  top: 185px;
   color: white;
-  font-size: 20px;
+  font-size: 22px;
+  z-index: 1;
 }
 
 .player-stats div {
-  margin: 10px;
+  margin: 14px;
   background: #333;
+  padding: 0 10px;
 }
 
 .player-select {
@@ -105,8 +119,41 @@ body {
 
 .player-name, .player-pos, .player-height {
   color: black;
+  font-size: 22px;
 }
 
 .hidden {
   display: none;
+}
+
+.close-one, .close-two {
+  position: absolute;
+  right: 0;
+}
+
+.player-button {
+  background: black;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px solid white;
+  transition: background 0.3s;
+}
+
+.player-button:hover {
+  background: #555;
+}
+
+.active {
+  background: white;
+  color: black;
+  border: 2px solid black;
+  transition: background 0.3s;
+}
+
+.active:hover {
+  background: rgb(221, 221, 221);
 }
