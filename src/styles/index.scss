@@ -1,7 +1,7 @@
 body {
   background: linear-gradient(to top, rgb(34, 34, 34), rgb(61, 61, 61));
   color: white;
-  padding: 0 30px;
+  padding: 0 33px;
   font-family: 'Anton', sans-serif;
   margin: 0;
   min-height: 100vh;
@@ -9,18 +9,19 @@ body {
 
 button {
   font-family: 'Anton', sans-serif;
+  font-size: 16px;
 }
 
 svg g {
   font-family: 'Anton', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-width: 850px;
+  min-width: 935px;
   border-bottom: 1px solid #999;
 }
 
@@ -39,9 +40,9 @@ svg g {
 
 .profile-links {
   display: flex;
-  width: 150px;
-  height: 50px;
-  font-size: 30px;
+  width: 165px;
+  height: 55px;
+  font-size: 34px;
 }
 
 .profile-links a {
@@ -59,13 +60,14 @@ svg g {
 
 .main-content {
   display: flex;
-  height: 650px;
+  height: 715px;
   margin-top: 20px;
+  border-bottom: 1px solid #999;
 }
 
 .player-compare {
-  width: 850px;
-  min-width: 850px;
+  width: 935px;
+  min-width: 935px;
 }
 
 .player-card {
@@ -74,8 +76,8 @@ svg g {
 }
 
 .player-card-details {
-  height: 500px;
-  width: 350px;
+  height: 550px;
+  width: 385px;
   margin: 25px;
   position: relative;
   background-image: url("../images/court.png");
@@ -86,20 +88,20 @@ svg g {
 .player-photo {
   position: absolute;
   background-size: 100% 100%;
-  width: 350px;
-  height : 250px;
-  top: -50px;
+  width: 385px;
+  height : 275px;
+  top: -55px;
 }
 
 .player-stats {
   position: absolute;
   background: linear-gradient(to top, rgb(0, 0, 0), rgb(40, 40, 40));
-  height: 300px;
-  width: 400px;
-  left: -25px;
-  top: 185px;
+  height: 330px;
+  width: 440px;
+  left: -27.5px;
+  top: 203.5px;
   color: white;
-  font-size: 22px;
+  font-size: 26px;
   z-index: 1;
   border-radius: 5px;
   border: 3px solid white;
@@ -107,11 +109,11 @@ svg g {
 
 .player-name {
   position: absolute;
-  top: 155px;
+  top: 170.5px;
   left: 50%;
   transform: translateX(-50%);
   color: white;
-  font-size: 24px;
+  font-size: 26px;
   background: linear-gradient(to top, rgb(34, 34, 34), rgb(75, 75, 75));
   padding: 0 10px;
   width: auto;
@@ -131,28 +133,29 @@ svg g {
 }
 
 .player-select {
-  height: 100px;
+  height: 110px;
   padding: 0 30px;
 }
 
 .graph-area {
-  width: 750px;
+  width: 825px;
   position: relative;
 }
 
 #graph {
-  height: 500px;
-  width: 625px;
+  height: 550px;
+  width: 687.5px;
   background: fuchsia;
-  margin: 25px 0 31px 60px;
+  margin: 25px 0 45px 70px;
+  border: 3px solid white;
 }
 
 .player-pos, .player-height {
   color: white;
-  font-size: 22px;
+  font-size: 24px;
   margin-left: 20px;
   background: linear-gradient(to top, rgb(34, 34, 34), rgb(75, 75, 75));
-  width: 50px;
+  width: 55px;
   text-align: center;
   border-radius: 5px;
   border: 3px solid white;
@@ -184,8 +187,8 @@ svg g {
 }
 
 .player-button {
-  margin-right: 10px;
-  margin-bottom: 10px;
+  margin-right: 12px;
+  margin-bottom: 12px;
 }
 
 .player-button:hover, .graph-button:hover {
@@ -212,9 +215,32 @@ svg g {
 }
 
 .graph-button {
-  width: 60px;
+  width: 66px;
 }
 
 .graph-button:not(:last-of-type) {
+  margin-right: 22px;
+}
+
+.footer {
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+  margin: 0 30px;
+}
+
+.footer p {
   margin-right: 20px;
+  color: cyan;
+}
+
+.footer a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #999;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  color: white;
 }

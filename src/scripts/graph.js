@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const margin = { top: 50, right: 50, bottom: 50, left: 50 };
-  const width = 625;
-  const height = 500;
+  const width = 687.5;
+  const height = 550;
   const graphWidth = width - margin.left - margin.right;
   const graphHeight = height - margin.top - margin.bottom;
   
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
         const parsedData = parseData(data, stat);
 
-        
+
       })
   };
 
