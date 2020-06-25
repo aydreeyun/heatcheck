@@ -1,143 +1,47 @@
-// document.addEventListener('DOMContentLoaded', () => {
-  // const svg = d3.select('#graph')
-  // const button = document.querySelector(".player-button");
+document.addEventListener('DOMContentLoaded', () => {
+  const margin = { top: 50, right: 50, bottom: 50, left: 50 };
+  const width = 625;
+  const height = 500;
+  const graphWidth = width - margin.left - margin.right;
+  const graphHeight = height - margin.top - margin.bottom;
+  
+  const svg = d3.select('#graph')
+    .append('svg')
+    .attr('width', '100%')
+    .attr('height', height)
+    .append('g')
+    .attr('transform', 'translate(' + margin.bottom + ',' + margin.top + ')')
 
-  // const sample = [
-  //   [80, 40, 30, 90, 50, 100],
-  //   [70, 100, 90, 20, 50, 10, 80]
-  // ]
+  const xScale = d3.scaleLinear()
+    .range([0, graphWidth])
+  const yScale = d3.scaleLinear()
+    .range([graphHeight, 0])
 
-  // const width = 625, height = 500;
-	// const data = [10, 15, 20, 25, 30];
-	
-	// const svg = d3.select("#graph")
-	// 	.append("svg")
-	// 	.attr("width", width)
-  //   .attr("height", height)
-  //   .style('color', '#fff')
+  const addLine = (name, stat) => {
+    const dataName = name.split(" ")[1].toLowerCase();
 
-	// const xScale = d3.scaleLinear()
-	// 	.domain([0, d3.max(data)])
-	// 	.range([0, width - 50]);
+    d3.csv(`src/data/${dataName}.csv`)
+      .then(data => {
+        const parsedData = parseData(data, stat);
 
-	// const yScale = d3.scaleLinear()
-  //   .domain([0, d3.max(data)])
-  //   .range([height - 50, 0]);
+        
+      })
+  };
 
-	// const xAxis = d3.axisBottom()
-  //   .scale(xScale)
-  //   .tickSize(7)
-  //   .tickPadding(5)
+  const parseData = (data, stat) => {
+    const arr = [];
 
-	// const yAxis = d3.axisLeft()
-  //   .scale(yScale)
-  //   .tickSize(5)
-
-  // svg.append("g")
-  //   .attr("transform", "translate(30, 10)")
-  //   .call(yAxis);
-
-	// const xAxisTranslate = height - 50 + 10;
-
-  // svg.append("g")
-  //   .attr("transform", "translate(30, " + xAxisTranslate  +")")
-  //   .call(xAxis)
-
-  // const line = svg.append("line")
-  //   .attr("x1", 32)
-  //   .attr("x2", 500)
-  //   .attr("y1", 50)
-  //   .attr("y2", 100)
-  //   .attr("stroke", "black")
-  //   .attr("stroke-width", 5);
-
-  const api = 'https://api.coindesk.com/v1/bpi/historical/close.json?start=2017-12-31&end=2020-04-01';
-
-/**
- * Loading data from API when DOM Content has been loaded'.
- */
-document.addEventListener("DOMContentLoaded", function(event) {
-fetch(api)
-    .then(function(response) { return response.json(); })
-    .then(function(data) {
-        var parsedData = parseData(data);
-        console.log(data)
-        console.log(parsedData)
-        drawChart(parsedData);
+    data.forEach(el => {
+      arr.push({
+        season: el.season,
+        [stat]: parseFloat(el[stat])
+      })
     })
-    .catch(function(err) { console.log(err); })
-});
 
-/**
- * Parse data into key-value pairs
- * @param {object} data Object containing historical data of BPI
- */
-function parseData(data) {
-    var arr = [];
-    for (var i in data.bpi) {
-        arr.push({
-            date: new Date(i), //date
-            value: +data.bpi[i] //convert string to number
-        });
-    }
     return arr;
-}
-
-/**
- * Creates a chart using D3
- * @param {object} data Object containing historical data of BPI
- */
-function drawChart(data) {
-  var svgWidth = 600, svgHeight = 400;
-  var margin = { top: 20, right: 20, bottom: 30, left: 50 };
-  var width = svgWidth - margin.left - margin.right;
-  var height = svgHeight - margin.top - margin.bottom;
-
-  var svg = d3.select('#graph')
-  .append('svg')
-      .attr("width", svgWidth)
-      .attr("height", svgHeight);
-      
-  var g = svg.append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  var x = d3.scaleTime()
-      .rangeRound([0, width]);
-
-  var y = d3.scaleLinear()
-      .rangeRound([height, 0]);
-
-  var line = d3.line()
-      .x(function(d) { return x(d.date)})
-      .y(function(d) { return y(d.value)})
-      x.domain(d3.extent(data, function(d) { return d.date }));
-      y.domain(d3.extent(data, function(d) { return d.value }));
-
-  g.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x))
-      .select(".domain")
-      .remove();
-
-  g.append("g")
-      .call(d3.axisLeft(y))
-      .append("text")
-      .attr("fill", "#000")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Price ($)");
-
-  g.append("path")
-      .datum(data)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-linejoin", "round")
-      .attr("stroke-linecap", "round")
-      .attr("stroke-width", 1.5)
-      .attr("d", line);
-}
-
-
-// })
+  }
+  debugger
+  const drawGraph = data => {
+    
+  }
+})
