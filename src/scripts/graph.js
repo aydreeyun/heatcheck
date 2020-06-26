@@ -13,19 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
     .attr('transform', 'translate(' + margin.bottom + ',' + margin.top + ')')
 
   // X-AXIS
-  const xScale = d3.scaleLinear()
-    .range([0, graphWidth])
+  // const xScale = d3.scaleLinear()
+  //   .range([0, graphWidth])
 
-  svg.append("g")
-    .attr("transform", "translate(0," + graphHeight + ")")
-    .call(d3.axisBottom(xScale));
+  // svg.append("g")
+  //   .attr("transform", "translate(0," + graphHeight + ")")
+  //   .call(d3.axisBottom(xScale));
 
-  // Y-AXIS
-  const yScale = d3.scaleLinear()
-    .range([graphHeight, 0])
+  // // Y-AXIS
+  // const yScale = d3.scaleLinear()
+  //   .range([graphHeight, 0])
 
-  svg.append("g")
-    .call(d3.axisLeft(yScale));
+  // svg.append("g")
+  //   .call(d3.axisLeft(yScale));
 
   // DRAW LINE
   const drawLine = (name, stat) => {
@@ -47,62 +47,57 @@ document.addEventListener('DOMContentLoaded', () => {
           .call(d3.axisBottom(xScale));
 
         // Y-AXIS
-        if (stat === "pts") {
-          const yScale = d3.scaleLinear()
-          .domain([0, 50])
+        const yScale = d3.scaleLinear()
           .range([graphHeight, 0])
+        if (stat === "pts") {
+          yScale.domain([0, 50])
 
           svg.append("g")
             .call(d3.axisLeft(yScale).tickValues([0, 10, 20, 30, 40, 50]));
         } else if (stat === "reb" || stat === "ast") {
-          const yScale = d3.scaleLinear()
-          .domain([0, 12])
-          .range([graphHeight, 0])
+          yScale.domain([0, 15])
 
           svg.append("g")
-            .call(d3.axisLeft(yScale).tickValues([0, 2, 4, 6, 8, 10, 12]));
+            .call(d3.axisLeft(yScale).tickValues([0, 3, 6, 9, 12, 15]));
         } else if (stat === "stl" || stat === "blk") {
-          const yScale = d3.scaleLinear()
-          .domain([0, 4])
-          .range([graphHeight, 0])
+          yScale.domain([0, 4])
 
           svg.append("g")
             .call(d3.axisLeft(yScale).tickValues([0, 1, 2, 3, 4]));
         } else if (stat === "to") {
-          const yScale = d3.scaleLinear()
-          .domain([0, 6])
-          .range([graphHeight, 0])
+          yScale.domain([0, 6])
 
           svg.append("g")
             .call(d3.axisLeft(yScale).tickValues([0, 2, 4, 6]));
         } else if (stat === "fg%" || stat === "3p%" || stat === "ft%") {
-          const yScale = d3.scaleLinear()
-          .domain([0, 1])
-          .range([graphHeight, 0])
+          yScale.domain([0, 1])
 
           svg.append("g")
             .call(d3.axisLeft(yScale).tickValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]));
         }
 
+        // ADD LINE
+        svg.append("path")
+        .datum(parsedData)
+        .attr("fill", "none")
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 1.5)
+        .attr("d", d3.line()
+          .x(function(d) { return xScale(d.season) })
+          .y(function(d) { return yScale(d[stat]) })
+        )
+
+        // ADD CIRCLE
+        svg.append("g")
+        .selectAll("dot")
+        .data(parsedData)
+        .enter()
+        .append("circle")
+          .attr("cx", function(d) { return xScale(d.season) } )
+          .attr("cy", function(d) { return yScale(d[stat]) } )
+          .attr("r", 5)
+          .attr("fill", "#fff")
       })
-
-
-        // svg.selectAll('.node')
-        //   .data(parsedData)
-        //   .enter()
-        //   .append('circle')
-        //   .attr('class', 'node')
-        //   .attr("r", '3') // radius property of node
-        //   .attr('fill', '#00ffff')
-        //   // .attr("fill", "none")
-        //   // .attr("stroke", "steelblue")
-        //   // .attr("stroke-width", 1.5)
-        //   // .attr("d", d3.line()
-        //   //   .x(d => { debugger; return x(d.season) })
-        //   //   .y(d => { debugger; return y(d[stat]) })
-        //   // )
-        // })
-
   }
 
   // PARSE DATA
@@ -124,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
-      drawLine(button.innerHTML, "pts");
+      drawLine(button.innerHTML, "ast");
     })
   })
 
