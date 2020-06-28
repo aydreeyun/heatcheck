@@ -30,12 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
   //   .call(d3.axisLeft(yScale));
 
   // DRAW LINE
-  const colors = ['red', 'blue'];
-
-  const drawLine = (name, stat) => {
+  const drawLine = (name, stat, color) => {
     const dataName = name.split(" ")[1].toLowerCase();
-    const lineColor = colors.shift();
-    colors.push(lineColor);
 
     svg.selectAll('.axis').remove();
     d3.csv(`src/data/${dataName}.csv`)
@@ -92,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         svg.append("path")
           .datum(parsedData)
           .attr("fill", "none")
-          .attr("stroke", `${lineColor}`)
+          .attr("stroke", `${color}`)
           .attr("stroke-width", 1.5)
           .attr('class', `line ${dataName}`)
           .attr("d", d3.line()
@@ -110,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .attr("cx", function(d) { return xScale(d.season) } )
           .attr("cy", function(d) { return yScale(d[stat]) } )
           .attr("r", 2.5)
-          .attr("fill", `${lineColor}`)
+          .attr("fill", `${color}`)
       })
   }
 
@@ -142,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // PLAYER BUTTONS
   const playerButtons = document.querySelectorAll('.player-button')
+  const colors = { red: false, blue: false };
 
   playerButtons.forEach(button => {
     const name = button.innerHTML;
@@ -150,11 +147,28 @@ document.addEventListener('DOMContentLoaded', () => {
       const allLines = Array.from(document.querySelectorAll('.line'))
 
       if (allLines.includes(d3.select(`.${name.split(" ")[1].toLowerCase()}`).node())) {
+        const lineColor = d3.select(`.${name.split(" ")[1].toLowerCase()}`).attr('stroke');
         svg.selectAll(`path.${name.split(" ")[1].toLowerCase()}`).remove()
         svg.selectAll(`circle.${name.split(" ")[1].toLowerCase()}`).remove()
-        console.log('hello')
+
+        colors[lineColor] = false;
+        debugger
+        console.log(lineColor)
       } else if (allLines.length < 2) {
-        drawLine(name, "pts");
+        let lineColor;
+        if (Object.values(colors).every(bool => !bool)) {
+          lineColor = "red"
+          colors['red'] = true;
+        } else if (colors['red']) {
+          lineColor = "blue"
+          colors['blue'] = true;
+        } else if (colors['blue']) {
+          lineColor = "red"
+          colors['red'] = true;
+        }
+
+
+        drawLine(name, "pts", lineColor);
       }
     })
   })
