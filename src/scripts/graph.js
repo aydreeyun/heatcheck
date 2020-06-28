@@ -168,15 +168,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
 
-        drawLine(name, "pts", lineColor);
+        drawLine(name, currentStat, lineColor);
       }
     })
   })
   
   // GRAPH BUTTONS
+  let currentStat = "pts"
+
   const graphButtons = document.querySelectorAll('.graph-button');
 
   graphButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      graphButtons.forEach(button => {
+        button.classList.remove('active')
+      })
 
+      currentStat = button.innerHTML.toLowerCase();
+      button.classList.add('active')
+    })
   })
 })
