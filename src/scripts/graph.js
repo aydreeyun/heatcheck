@@ -110,13 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
       })
   }
 
-  // TOGGLE LINE
-  const toggleLine = () => {
-    const playerNames = Array.from(document.querySelectorAll('.player-name'));
-
-
-  }
-
   // UPDATE
   const update = (data) => {
 
@@ -166,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
           lineColor = "red"
           colors['red'] = true;
         }
-
 
         drawLine(name, currentStat, lineColor);
       }

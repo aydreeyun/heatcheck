@@ -67,7 +67,6 @@ svg g {
 }
 
 .player-compare {
-  width: 935px;
   min-width: 935px;
 }
 
@@ -104,10 +103,10 @@ svg g {
 .player-stats {
   position: absolute;
   background: linear-gradient(to top, rgb(0, 0, 0), rgb(40, 40, 40));
-  height: 330px;
+  height: 340px;
   width: 440px;
   left: -27.5px;
-  top: 203.5px;
+  top: 195px;
   color: white;
   font-size: 26px;
   z-index: 1;
@@ -146,7 +145,7 @@ svg g {
 }
 
 .graph-area {
-  width: 935px;
+  min-width: 800px;
   position: relative;
 }
 
