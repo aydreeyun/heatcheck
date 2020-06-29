@@ -103,10 +103,10 @@ svg g {
 .player-stats {
   position: absolute;
   background: linear-gradient(to top, rgb(0, 0, 0), rgb(40, 40, 40));
-  height: 340px;
+  height: 330px;
   width: 440px;
-  left: -27.5px;
-  top: 195px;
+  left: -30.5px;
+  top: 205px;
   color: white;
   font-size: 26px;
   z-index: 1;
@@ -116,7 +116,7 @@ svg g {
 
 .player-name {
   position: absolute;
-  top: 170.5px;
+  top: 170px;
   left: 50%;
   transform: translateX(-50%);
   color: white;
@@ -136,6 +136,7 @@ svg g {
   margin: 14px;
   background: linear-gradient(to right, rgba(51, 51, 51, 1), rgba(51, 51, 51, 0.2));
   padding: 0 10px;
+  height: 38.5px;
   border-radius: 2px;
 }
 

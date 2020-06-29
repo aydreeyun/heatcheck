@@ -139,8 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const lineColor = d3.select(`.${name.split(" ")[1].toLowerCase()}`).attr('stroke');
         const legendItem = document.querySelector(`.graph-legend .${lineColor}`);
 
+        // REMOVE LINE AND CIRCLE
         svg.selectAll(`path.${name.split(" ")[1].toLowerCase()}`).remove()
         svg.selectAll(`circle.${name.split(" ")[1].toLowerCase()}`).remove()
+
+        // REMOVE LEGEND ITEM
         legendItem.remove();
 
         colors[lineColor] = false;
