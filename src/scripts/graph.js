@@ -15,8 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
     .attr('transform', 'translate(' + margin.bottom + ',' + margin.top + ')')
 
   // DRAW LINE
+  let currXAxisVal = 0;
+  let currXAxis;
+  const currPlayers = [];
+
   const drawLine = (name, stat, color) => {
     const dataName = name.split(" ")[1].toLowerCase();
+    currPlayers.push(name);
 
     svg.selectAll('.axis').remove();
     d3.csv(`src/data/${dataName}.csv`)
@@ -25,8 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // X-AXIS
         const xValues = parsedData.map(obj => obj.season)
+        if (xValues.length > currXAxisVal) {
+          currXAxisVal = xValues.length;
+          currXAxis = xValues; 
+        }
+
         const xScale = d3.scalePoint()
-          .domain(xValues)
+          .domain(currXAxis)
           .range([0, graphWidth])
 
         svg.append("g")
@@ -69,6 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .call(d3.axisLeft(yScale).tickValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]));
         }
 
+        // svg.selectAll('line').remove();
+
         // ADD LINE
         svg.append("path")
           .datum(parsedData)
@@ -76,10 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
           .attr("stroke", `${color}`)
           .attr("stroke-width", 1.5)
           .attr('class', `line ${dataName}`)
+          .transition()
+          .duration(500)
           .attr("d", d3.line()
             .x(function(d) { return xScale(d.season) })
             .y(function(d) { return yScale(d[stat]) })
           )
+
 
         // ADD CIRCLE
         svg.append("g")
@@ -93,11 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
           .attr("r", 2.5)
           .attr("fill", `${color}`)
       })
-  }
-
-  // UPDATE
-  const updateGraph = (data, stat) => {
-
   }
 
   // PARSE DATA
@@ -121,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const legendElement = document.createElement('p');
     legendElement.innerHTML = name;
     legendElement.classList.add('legend-item', `${color}`);
-    // legendElement.style('color', color);
     legend.appendChild(legendElement);
   }
 
@@ -133,11 +142,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = button.innerHTML;
 
     button.addEventListener('click', () => {
-      const allLines = Array.from(document.querySelectorAll('.line'))
+      const allLines = Array.from(document.querySelectorAll('.line'));
 
       if (allLines.includes(d3.select(`.${name.split(" ")[1].toLowerCase()}`).node())) {
         const lineColor = d3.select(`.${name.split(" ")[1].toLowerCase()}`).attr('stroke');
         const legendItem = document.querySelector(`.graph-legend .${lineColor}`);
+        const currPlayerIdx = currPlayers.indexOf(name.split(" ")[1].toLowerCase());
 
         // REMOVE LINE AND CIRCLE
         svg.selectAll(`path.${name.split(" ")[1].toLowerCase()}`).remove()
@@ -145,6 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // REMOVE LEGEND ITEM
         legendItem.remove();
+
+        currPlayers.splice(currPlayerIdx, currPlayerIdx + 1);
 
         colors[lineColor] = false;
       } else if (allLines.length < 2) {
