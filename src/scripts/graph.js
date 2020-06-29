@@ -14,21 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .append('g')
     .attr('transform', 'translate(' + margin.bottom + ',' + margin.top + ')')
 
-  // X-AXIS
-  // const xScale = d3.scaleLinear()
-  //   .range([0, graphWidth])
-
-  // svg.append("g")
-  //   .attr("transform", "translate(0," + graphHeight + ")")
-  //   .call(d3.axisBottom(xScale));
-
-  // // Y-AXIS
-  // const yScale = d3.scaleLinear()
-  //   .range([graphHeight, 0])
-
-  // svg.append("g")
-  //   .call(d3.axisLeft(yScale));
-
   // DRAW LINE
   const drawLine = (name, stat, color) => {
     const dataName = name.split(" ")[1].toLowerCase();
@@ -111,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // UPDATE
-  const update = (data) => {
+  const updateGraph = (data, stat) => {
 
   }
 
@@ -129,6 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
     return arr;
   };
 
+  // LEGEND
+  const legend = document.querySelector('.graph-legend')
+
+  const addLegend = (name, color) => {
+    const legendElement = document.createElement('p');
+    legendElement.innerHTML = name;
+    legendElement.classList.add('legend-item', `${color}`);
+    // legendElement.style('color', color);
+    legend.appendChild(legendElement);
+  }
+
   // PLAYER BUTTONS
   const playerButtons = document.querySelectorAll('.player-button')
   const colors = { red: false, blue: false };
@@ -141,12 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (allLines.includes(d3.select(`.${name.split(" ")[1].toLowerCase()}`).node())) {
         const lineColor = d3.select(`.${name.split(" ")[1].toLowerCase()}`).attr('stroke');
+        const legendItem = document.querySelector(`.graph-legend .${lineColor}`);
+
         svg.selectAll(`path.${name.split(" ")[1].toLowerCase()}`).remove()
         svg.selectAll(`circle.${name.split(" ")[1].toLowerCase()}`).remove()
+        legendItem.remove();
 
         colors[lineColor] = false;
-        debugger
-        console.log(lineColor)
       } else if (allLines.length < 2) {
         let lineColor;
         if (Object.values(colors).every(bool => !bool)) {
@@ -161,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         drawLine(name, currentStat, lineColor);
+        addLegend(name, lineColor)
       }
     })
   })
