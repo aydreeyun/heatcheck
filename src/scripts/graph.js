@@ -14,14 +14,69 @@ document.addEventListener('DOMContentLoaded', () => {
     .append('g')
     .attr('transform', 'translate(' + margin.bottom + ',' + margin.top + ')')
 
+  // const drawXAxis = data => {
+  //   const xValues = data.map(obj => obj.season)
+
+  //   if (xValues.length > currXAxisVal) {
+  //     currXAxisVal = xValues.length;
+  //     currXAxis = xValues;
+  //   }
+
+  //   const xScale = d3.scalePoint()
+  //     .domain(currXAxis)
+  //     .range([0, graphWidth])
+
+  //   svg.append("g")
+  //     .attr("transform", "translate(0," + graphHeight + ")")
+  //     .attr('class', 'axis x-axis')
+  //     .call(d3.axisBottom(xScale));
+  // }
+
+  // const drawYAxis = stat => {
+  //   const yScale = d3.scaleLinear()
+  //     .range([graphHeight, 0])
+
+  //   if (stat === "pts") {
+  //     yScale.domain([0, 50])
+
+  //     svg.append("g")
+  //       .attr('class', 'axis y-axis')
+  //       .call(d3.axisLeft(yScale).tickValues([0, 10, 20, 30, 40, 50]));
+  //   } else if (stat === "reb" || stat === "ast") {
+  //     yScale.domain([0, 15])
+
+  //     svg.append("g")
+  //       .attr('class', 'axis y-axis')
+  //       .call(d3.axisLeft(yScale).tickValues([0, 3, 6, 9, 12, 15]));
+  //   } else if (stat === "stl" || stat === "blk") {
+  //     yScale.domain([0, 4])
+
+  //     svg.append("g")
+  //       .attr('class', 'axis y-axis')
+  //       .call(d3.axisLeft(yScale).tickValues([0, 1, 2, 3, 4]));
+  //   } else if (stat === "to") {
+  //     yScale.domain([0, 6])
+
+  //     svg.append("g")
+  //       .attr('class', 'axis y-axis')
+  //       .call(d3.axisLeft(yScale).tickValues([0, 2, 4, 6]));
+  //   } else if (stat === "fg%" || stat === "3p%" || stat === "ft%") {
+  //     yScale.domain([0, 1])
+
+  //     svg.append("g")
+  //       .attr('class', 'axis y-axis')
+  //       .call(d3.axisLeft(yScale).tickValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]));
+  //   }
+  // }
+
   // DRAW LINE
   let currXAxisVal = 0;
   let currXAxis;
-  const currPlayers = [];
+  const currPlayers = {};
 
   const drawLine = (name, stat, color) => {
     const dataName = name.split(" ")[1].toLowerCase();
-    currPlayers.push(name);
+    currPlayers[name] = color;
 
     svg.selectAll('.axis').remove();
     d3.csv(`src/data/${dataName}.csv`)
@@ -32,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const xValues = parsedData.map(obj => obj.season)
         if (xValues.length > currXAxisVal) {
           currXAxisVal = xValues.length;
-          currXAxis = xValues; 
+          currXAxis = xValues;
         }
 
         const xScale = d3.scalePoint()
@@ -41,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         svg.append("g")
           .attr("transform", "translate(0," + graphHeight + ")")
-          .attr('class', 'axis')
+          .attr('class', 'axis x-axis')
           .call(d3.axisBottom(xScale));
 
         // Y-AXIS
@@ -51,35 +106,33 @@ document.addEventListener('DOMContentLoaded', () => {
           yScale.domain([0, 50])
 
           svg.append("g")
-            .attr('class', 'axis')
+            .attr('class', 'axis y-axis')
             .call(d3.axisLeft(yScale).tickValues([0, 10, 20, 30, 40, 50]));
         } else if (stat === "reb" || stat === "ast") {
           yScale.domain([0, 15])
 
           svg.append("g")
-            .attr('class', 'axis')
+            .attr('class', 'axis y-axis')
             .call(d3.axisLeft(yScale).tickValues([0, 3, 6, 9, 12, 15]));
         } else if (stat === "stl" || stat === "blk") {
           yScale.domain([0, 4])
 
           svg.append("g")
-            .attr('class', 'axis')
+            .attr('class', 'axis y-axis')
             .call(d3.axisLeft(yScale).tickValues([0, 1, 2, 3, 4]));
         } else if (stat === "to") {
           yScale.domain([0, 6])
 
           svg.append("g")
-            .attr('class', 'axis')
+            .attr('class', 'axis y-axis')
             .call(d3.axisLeft(yScale).tickValues([0, 2, 4, 6]));
         } else if (stat === "fg%" || stat === "3p%" || stat === "ft%") {
           yScale.domain([0, 1])
 
           svg.append("g")
-            .attr('class', 'axis')
+            .attr('class', 'axis y-axis')
             .call(d3.axisLeft(yScale).tickValues([0, 0.2, 0.4, 0.6, 0.8, 1.0]));
         }
-
-        // svg.selectAll('line').remove();
 
         // ADD LINE
         svg.append("path")
@@ -88,13 +141,10 @@ document.addEventListener('DOMContentLoaded', () => {
           .attr("stroke", `${color}`)
           .attr("stroke-width", 1.5)
           .attr('class', `line ${dataName}`)
-          .transition()
-          .duration(500)
           .attr("d", d3.line()
             .x(function(d) { return xScale(d.season) })
             .y(function(d) { return yScale(d[stat]) })
           )
-
 
         // ADD CIRCLE
         svg.append("g")
@@ -136,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // PLAYER BUTTONS
   const playerButtons = document.querySelectorAll('.player-button')
-  const colors = { red: false, blue: false };
+  const colors = { red: false, dodgerblue: false };
 
   playerButtons.forEach(button => {
     const name = button.innerHTML;
@@ -147,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (allLines.includes(d3.select(`.${name.split(" ")[1].toLowerCase()}`).node())) {
         const lineColor = d3.select(`.${name.split(" ")[1].toLowerCase()}`).attr('stroke');
         const legendItem = document.querySelector(`.graph-legend .${lineColor}`);
-        const currPlayerIdx = currPlayers.indexOf(name.split(" ")[1].toLowerCase());
 
         // REMOVE LINE AND CIRCLE
         svg.selectAll(`path.${name.split(" ")[1].toLowerCase()}`).remove()
@@ -156,22 +205,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // REMOVE LEGEND ITEM
         legendItem.remove();
 
-        currPlayers.splice(currPlayerIdx, currPlayerIdx + 1);
+        delete currPlayers[name];
 
         colors[lineColor] = false;
       } else if (allLines.length < 2) {
         let lineColor;
         if (Object.values(colors).every(bool => !bool)) {
           lineColor = "red"
-          colors['red'] = true;
         } else if (colors['red']) {
-          lineColor = "blue"
-          colors['blue'] = true;
-        } else if (colors['blue']) {
+          lineColor = "dodgerblue"
+        } else if (colors['dodgerblue']) {
           lineColor = "red"
-          colors['red'] = true;
         }
 
+        colors[lineColor] = true;
         drawLine(name, currentStat, lineColor);
         addLegend(name, lineColor)
       }
@@ -186,11 +233,18 @@ document.addEventListener('DOMContentLoaded', () => {
   graphButtons.forEach(button => {
     button.addEventListener('click', () => {
       graphButtons.forEach(button => {
-        button.classList.remove('active')
+        button.classList.remove('active');
       })
 
       currentStat = button.innerHTML.toLowerCase();
-      button.classList.add('active')
+      button.classList.add('active');
+
+      svg.selectAll('.line').remove();
+      svg.selectAll('.dot').remove();
+
+      Object.keys(currPlayers).forEach(player => {
+        drawLine(player, currentStat, currPlayers[player]);
+      })
     })
   })
 })
