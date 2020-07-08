@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const drawLine = (name, stat, color) => {
     const dataName = name.split(" ")[1].toLowerCase();
-    currPlayers[name] = color;
+    currPlayers[name] = { color: color };
 
     svg.selectAll('.axis').remove();
     d3.csv(`src/data/${dataName}.csv`)
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const firstPlayer = Object.keys(currPlayers)[0];
             const firstPlayerName = firstPlayer.split(" ")[1].toLowerCase();
   
-            redrawLine(firstPlayerName, stat, currPlayers[firstPlayer]);
+            redrawLine(firstPlayerName, stat, currPlayers[firstPlayer].color);
           }
         }
 
@@ -210,8 +210,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // REMOVE LEGEND ITEM
         legendItem.remove();
 
+        // DELETE PLAYER FROM CURRENT PLAYER OBJECT
         delete currPlayers[name];
 
+        // TOGGLE FALSE DELETED COLOR
         colors[lineColor] = false;
       } else if (allLines.length < 2) {
         let lineColor;
@@ -248,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
       svg.selectAll('.dot').remove();
 
       Object.keys(currPlayers).forEach(player => {
-        drawLine(player, currentStat, currPlayers[player]);
+        drawLine(player, currentStat, currPlayers[player].color);
       })
     })
   })
