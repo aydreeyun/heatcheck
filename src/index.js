@@ -4,20 +4,14 @@ import './scripts/card';
 import './scripts/graph';
 
 document.addEventListener("DOMContentLoaded", () => {
-  const modalBackground = document.createElement("div");
-  const modalChild = document.createElement("div");
+  const modalBackground = document.querySelector(".modal-background");
+  const modalChild = document.querySelector(".modal-child");
 
-  modalBackground.classList.add('modal-background');
-  modalChild.classList.add('modal-child');
-
-  document.querySelector('body').append(modalBackground);
-  modalBackground.append(modalChild);
+  modalBackground.classList.remove('hidden');
 
   modalBackground.addEventListener("click", () => {
-    modalBackground.style.display = 'none';
+    modalBackground.classList.add('hidden');
   });
 
-  modalChild.addEventListener('click', e => {
-    e.stopPropagation();
-  });
+  modalChild.addEventListener('click', e => e.stopPropagation());
 })
