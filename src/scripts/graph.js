@@ -1,5 +1,3 @@
-const { line } = require("d3");
-
 document.addEventListener('DOMContentLoaded', () => {
   const margin = { top: 15, right: 15, bottom: 30, left: 30 };
   const width = 687.5;
